@@ -56,6 +56,7 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--cold);outline-offse
 .tabs button{flex:1;min-width:max-content;background:none;border:0;border-bottom:3px solid transparent;padding:14px 12px;font-weight:700;color:var(--sub);font-size:14px}
 .tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--heat)}
 .pane{padding:18px;display:flex;flex-direction:column;gap:14px}
+.pane[hidden]{display:none}
 .hint{font-size:13px;color:var(--sub)}
 .gridwrap{overflow-x:auto}
 table.slots{border-collapse:separate;border-spacing:4px;width:100%;min-width:900px}
@@ -97,6 +98,7 @@ table.slots{border-collapse:separate;border-spacing:4px;width:100%;min-width:900
 .badge.ng{background:var(--heat-soft);color:var(--heat)}
 .place .more{border:0;background:none;color:var(--cold);font-size:13px;padding:0;text-align:left}
 .detail{border:2px solid var(--ink);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.detail[hidden]{display:none}
 .detail h3{font-size:18px}
 .detail .post{border-top:1px solid var(--line);padding-top:8px;font-size:14px}
 .detail .post b{font-size:13px}
