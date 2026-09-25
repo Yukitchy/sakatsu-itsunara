@@ -1,0 +1,154 @@
+[
+  {
+    "name": "ライオンサウナ新橋（レンブラントキャビン&スパ新橋内）",
+    "area": "新橋・汐留・銀座",
+    "station": "新橋駅 徒歩3分",
+    "url": "https://rembrandt-cabin.com/spa-shimbashi/",
+    "point": "水風呂は10℃と17℃の2種類",
+    "tattoo": "不可"
+  },
+  {
+    "name": "カンデオホテルズ 東京新橋 スカイスパ",
+    "area": "新橋・汐留・銀座",
+    "station": "新橋駅 徒歩4分",
+    "url": "https://www.candeohotels.com/ja/tokyo-shimbashi/sauna/",
+    "point": "12階露天の外気浴、水風呂17.5℃",
+    "tattoo": "可"
+  },
+  {
+    "name": "銀座 SPA&SAUNA コリドーの湯",
+    "area": "新橋・汐留・銀座",
+    "station": "銀座駅 徒歩5分",
+    "url": "https://corridorno-yu.jp/",
+    "point": "水風呂17℃、外気浴スペースを完備",
+    "tattoo": "条件付き"
+  },
+  {
+    "name": "Sauna-Tokyo（サウナ東京）赤坂",
+    "area": "赤坂・六本木・虎ノ門",
+    "station": "赤坂駅 徒歩1分",
+    "url": "https://sauna-tokyo.jp/",
+    "point": "男性専用でサウナ5室・水風呂3種",
+    "tattoo": "条件付き"
+  },
+  {
+    "name": "テルマー湯 西麻布店",
+    "area": "赤坂・六本木・虎ノ門",
+    "station": "六本木駅 徒歩5分",
+    "url": "https://nishiazabu-thermae-yu.jp/",
+    "point": "都内最深級163cmの水風呂と8℃水風呂",
+    "tattoo": "条件付き"
+  },
+  {
+    "name": "高輪SAUNAS",
+    "area": "品川・高輪・五反田",
+    "station": "高輪ゲートウェイ駅 徒歩1分",
+    "url": "https://saunas-saunas.com/takanawa",
+    "point": "個性の異なるサウナ室を9室備える新施設",
+    "tattoo": "可"
+  },
+  {
+    "name": "ドシー五反田",
+    "area": "品川・高輪・五反田",
+    "station": "五反田駅 徒歩2分",
+    "url": "https://do-c.jp/gotanda",
+    "point": "水風呂はなく冷たいウォーターピラーで冷却",
+    "tattoo": null
+  },
+  {
+    "name": "渋谷SAUNAS",
+    "area": "渋谷・恵比寿",
+    "station": "渋谷駅 徒歩3分",
+    "url": "https://saunas-saunas.com/shibuya/",
+    "point": "深さ160cmの水風呂「シヴァ」が特徴",
+    "tattoo": "条件付き"
+  },
+  {
+    "name": "ドシー恵比寿",
+    "area": "渋谷・恵比寿",
+    "station": "恵比寿駅 徒歩2分",
+    "url": "https://do-c.jp/ebisu",
+    "point": "水風呂はなく温度が選べる掛水シャワー",
+    "tattoo": null
+  },
+  {
+    "name": "新宿天然温泉 テルマー湯",
+    "area": "新宿",
+    "station": "新宿三丁目駅 徒歩2分",
+    "url": "https://thermae-yu.jp/",
+    "point": "水風呂15℃、24人収容の大型サウナ室",
+    "tattoo": "条件付き"
+  },
+  {
+    "name": "新宿区役所前カプセルホテル",
+    "area": "新宿",
+    "station": "新宿駅 徒歩4分",
+    "url": "https://sauna-ikitai.com/saunas/1825",
+    "point": "水風呂は3段階の温度から選べる",
+    "tattoo": "可"
+  },
+  {
+    "name": "サウナ&ホテル かるまる池袋",
+    "area": "池袋",
+    "station": "池袋駅 徒歩6分",
+    "url": "https://karumaru.jp/ikebukuro/",
+    "point": "水風呂4種、最冷6.1℃のサンダートルネード",
+    "tattoo": "不可"
+  },
+  {
+    "name": "タイムズ スパ・レスタ",
+    "area": "池袋",
+    "station": "東池袋駅 徒歩3分",
+    "url": "http://www.timesspa-resta.jp/",
+    "point": "水風呂15℃、玄人にも評判の上質な銭湯",
+    "tattoo": null
+  },
+  {
+    "name": "サウナ&カプセルホテル 北欧",
+    "area": "上野・浅草",
+    "station": "上野駅 徒歩1分",
+    "url": "https://www.saunahokuou.com/",
+    "point": "ドラマ「サ道」の舞台、水風呂18℃",
+    "tattoo": "不可"
+  },
+  {
+    "name": "サウナランド浅草",
+    "area": "上野・浅草",
+    "station": "浅草駅 徒歩2分",
+    "url": "https://saunaland-asakusa.jp/",
+    "point": "薪サウナと水風呂16℃、貸切利用も可能",
+    "tattoo": "可"
+  },
+  {
+    "name": "浅草ROXまつり湯",
+    "area": "上野・浅草",
+    "station": "田原町駅 徒歩5分",
+    "url": "https://www.matsuri-yu.com/",
+    "point": "水風呂14〜17℃、露天風呂など湯船11種",
+    "tattoo": null
+  },
+  {
+    "name": "黄金湯",
+    "area": "錦糸町・両国・墨田",
+    "station": "錦糸町駅 徒歩6分",
+    "url": "https://koganeyu.com/",
+    "point": "1932年創業、水風呂12〜15℃で深さ80cm",
+    "tattoo": "可"
+  },
+  {
+    "name": "リアルサウナ錦糸町",
+    "area": "錦糸町・両国・墨田",
+    "station": "錦糸町駅 徒歩2分",
+    "url": "https://realsauna.tokyo/",
+    "point": "全長7mの巨大水風呂、122℃のサウナ室",
+    "tattoo": "可"
+  },
+  {
+    "name": "両国湯屋 江戸遊",
+    "area": "錦糸町・両国・墨田",
+    "station": "両国駅 徒歩2分",
+    "url": "https://www.edoyu.com/ryougoku/",
+    "point": "水風呂18℃、和風モダンな内装",
+    "tattoo": "不可"
+  }
+]

@@ -1,0 +1,7 @@
+name = "sakatsu-itsunara"
+main = "index.js"
+compatibility_date = "2026-09-25"
+
+[[kv_namespaces]]
+binding = "ROOMS"
+id = "02f9121a1f9149dcae0399ca8a47fba3"

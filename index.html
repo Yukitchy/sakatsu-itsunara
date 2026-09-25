@@ -1,0 +1,426 @@
+<title>サ活いつなら？</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;700;900&family=IBM+Plex+Mono:wght@500;700&display=swap">
+<style>
+:root{
+  color-scheme:light;
+  --ground:#f6f8fa; --paper:#fff; --ink:#14202b; --sub:#5a6a78; --line:#dfe6ec;
+  --heat:#e2482d; --heat-soft:#fdebe6; --cold:#1a78cf; --cold-soft:#e5f1fc; --air:#2f9e6a; --air-soft:#e4f5ec;
+  --sans:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Hiragino Sans",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.75;padding-inline:16px;padding-block:20px 72px;margin:0}
+.wrap{max-width:820px;margin:0 auto;display:flex;flex-direction:column;gap:64px}
+h1,h2,h3{margin:0;line-height:1.35;text-wrap:balance}
+p{margin:0}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--sub)}
+button{font:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:3px solid var(--cold);outline-offset:2px}
+
+/* hero */
+.hero{display:grid;gap:24px;padding-top:12px}
+.hero h1{font-size:clamp(34px,8vw,56px);font-weight:900;letter-spacing:-.01em}
+.hero h1 .h{color:var(--heat)} .hero h1 .c{color:var(--cold)}
+.hero .lead{font-size:17px;color:var(--sub);max-width:32em}
+.cycle{display:flex;border-radius:12px;overflow:hidden;height:56px;font-family:var(--mono);font-size:13px;font-weight:700}
+.cycle div{display:flex;align-items:center;justify-content:center;flex-direction:column;line-height:1.2;color:#fff}
+.cycle small{font-family:var(--sans);font-weight:400;font-size:11px;opacity:.9}
+.cta{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:#fff;border:0;border-radius:999px;padding:12px 22px;font-weight:700;text-decoration:none;width:max-content}
+.cta::after{content:"↓"}
+
+/* sections */
+section{display:flex;flex-direction:column;gap:18px}
+section > h2{font-size:26px;font-weight:900}
+.pains{display:grid;gap:10px}
+@media(min-width:640px){.pains{grid-template-columns:repeat(3,1fr)}}
+.pain{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px}
+.pain b{display:block;font-size:15px;margin-bottom:4px}
+.pain span{font-size:14px;color:var(--sub)}
+
+/* prototype shell */
+.proto{background:var(--paper);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.tabs{display:flex;border-bottom:1px solid var(--line);overflow-x:auto}
+.tabs button{flex:1;min-width:max-content;background:none;border:0;border-bottom:3px solid transparent;padding:14px 12px;font-weight:700;color:var(--sub);font-size:14px}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--heat)}
+.pane{padding:18px;display:flex;flex-direction:column;gap:14px}
+.hint{font-size:13px;color:var(--sub)}
+
+/* when grid */
+.who{display:flex;gap:8px;flex-wrap:wrap}
+.who button{border:2px solid var(--line);background:var(--paper);border-radius:999px;padding:6px 14px;font-weight:700;font-size:14px}
+.who button[aria-pressed="true"].y{border-color:var(--heat);background:var(--heat-soft)}
+.who button[aria-pressed="true"].i{border-color:var(--cold);background:var(--cold-soft)}
+.gridwrap{overflow-x:auto}
+table.slots{border-collapse:separate;border-spacing:4px;width:100%;min-width:520px}
+.slots th{font-size:12px;color:var(--sub);font-weight:700}
+.slots th.row{text-align:left;white-space:nowrap;padding-right:4px}
+.slots td button{width:100%;height:40px;border-radius:8px;border:1px solid var(--line);background:var(--ground);display:flex;gap:3px;align-items:center;justify-content:center;padding:0}
+.slots td button i{width:9px;height:9px;border-radius:50%;display:block}
+.slots td button i.y{background:var(--heat)} .slots td button i.i{background:var(--cold)}
+.slots td button.both{background:var(--air-soft);border-color:var(--air)}
+.slots td button.both::after{content:"GO";font-family:var(--mono);font-size:11px;font-weight:700;color:var(--air);margin-left:2px}
+.result{border-radius:12px;padding:14px 16px;background:var(--air-soft);display:flex;flex-direction:column;gap:6px}
+.result b{font-size:17px}
+.result.none{background:var(--ground);color:var(--sub)}
+
+/* places */
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chips button{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:6px 12px;font-size:13px}
+.chips button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.places{display:grid;gap:10px}
+@media(min-width:640px){.places{grid-template-columns:1fr 1fr}}
+.place{border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:6px}
+.place h3{font-size:16px}
+.place .area{font-size:12px;color:var(--sub)}
+.place .votes{display:flex;gap:6px}
+.place .votes button{border:1px solid var(--line);background:var(--paper);border-radius:8px;padding:4px 10px;font-size:13px}
+.place .votes button[aria-pressed="true"].y{background:var(--heat);color:#fff;border-color:var(--heat)}
+.place .votes button[aria-pressed="true"].i{background:var(--cold);color:#fff;border-color:var(--cold)}
+.place.match{border:2px solid var(--air)}
+.place .m{font-size:12px;font-weight:700;color:var(--air)}
+
+.q{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font:inherit;font-size:15px;background:var(--paper)}
+.sortrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.sortrow select{margin-left:auto;font:inherit;font-size:13px;border:1px solid var(--line);border-radius:8px;padding:4px 8px;background:var(--paper)}
+.tt{font-size:13px;display:flex;gap:4px;align-items:center}
+.place .top{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.place h3 a{color:var(--ink);text-decoration:none}
+.place h3 a:hover{text-decoration:underline}
+.place .pt{font-size:14px}
+.place .meta{display:flex;gap:6px;flex-wrap:wrap;font-size:12px}
+.badge{border-radius:6px;padding:1px 8px;background:var(--ground);color:var(--sub)}
+.badge.ok{background:var(--air-soft);color:var(--air)}
+.badge.ng{background:var(--heat-soft);color:var(--heat)}
+.place .more{border:0;background:none;color:var(--cold);font-size:13px;padding:0;text-align:left}
+.detail{border:2px solid var(--ink);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.detail h3{font-size:18px}
+.detail .post{border-top:1px solid var(--line);padding-top:8px;font-size:14px}
+.detail .post b{font-size:13px}
+.detail .post .sets{font-family:var(--mono);font-size:12px;color:var(--sub)}
+.detail .acts{display:flex;gap:8px;flex-wrap:wrap}
+.detail .acts button{border:1px solid var(--ink);background:var(--paper);border-radius:999px;padding:6px 14px;font-size:13px;font-weight:700}
+.logmeta{display:grid;grid-template-columns:auto 1fr;gap:8px 10px;align-items:center;font-size:13px}
+.logmeta select,.logmeta input{font:inherit;font-size:14px;border:1px solid var(--line);border-radius:8px;padding:6px 8px;background:var(--paper);min-width:0}
+
+/* log */
+.logwho{display:flex;gap:8px}
+.set-form{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.step{border:1px solid var(--line);border-radius:10px;padding:8px;display:flex;flex-direction:column;align-items:center;gap:4px}
+.step label{font-size:12px;color:var(--sub)}
+.step .val{font-family:var(--mono);font-weight:700;font-size:20px}
+.step .btns{display:flex;gap:6px}
+.step .btns button{width:34px;height:30px;border-radius:8px;border:1px solid var(--line);background:var(--ground);font-weight:700}
+.step.s{background:var(--heat-soft)} .step.w{background:var(--cold-soft)} .step.a{background:var(--air-soft)}
+.add{background:var(--ink);color:#fff;border:0;border-radius:10px;padding:12px;font-weight:700}
+.tracks{display:flex;flex-direction:column;gap:10px}
+.track h3{font-size:14px;margin-bottom:6px;display:flex;justify-content:space-between}
+.track h3 span{font-family:var(--mono);font-weight:500;color:var(--sub);font-size:12px}
+.bar{display:flex;height:28px;border-radius:6px;overflow:hidden;background:var(--ground)}
+.bar i{display:block;height:100%}
+.bar i.s{background:var(--heat)} .bar i.w{background:var(--cold)} .bar i.a{background:var(--air)}
+.legend{display:flex;gap:14px;font-size:12px;color:var(--sub)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+
+/* line preview */
+.line{background:#8cabd9;border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:8px}
+.bubble{background:#fff;border-radius:14px;padding:10px 14px;font-size:14px;max-width:90%;white-space:pre-wrap;line-height:1.65}
+.bubble .t{font-size:11px;color:var(--sub);display:block;margin-bottom:2px}
+
+/* steps / biz */
+.flow{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+@media(min-width:640px){.flow{grid-template-columns:repeat(4,1fr)}}
+.flow li{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:4px}
+.flow li b{font-family:var(--mono);color:var(--heat);font-size:13px}
+.flow li span{font-size:14px}
+.biz{background:var(--ink);color:#fff;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:14px}
+.biz h2{font-size:24px}
+.biz p{color:#cdd6de;font-size:15px}
+.biz ul{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px;font-size:15px}
+.biz .who2{display:grid;gap:10px}
+@media(min-width:640px){.biz .who2{grid-template-columns:1fr 1fr}}
+.biz .who2 div{background:rgba(255,255,255,.07);border-radius:12px;padding:14px}
+.biz .who2 b{display:block;margin-bottom:4px}
+footer{font-size:12px;color:var(--sub);border-top:1px solid var(--line);padding-top:16px}
+@media (prefers-reduced-motion:no-preference){.slots td button,.place{transition:background .15s,border-color .15s}}
+</style>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">SAKATSU ITSUNARA ／ サウナを探す・日程を合わせる・記録する</div>
+    <h1>次の<span class="h">サ</span>活、<br><span class="c">いつ</span>ならいける？</h1>
+    <p class="lead">エリア別の施設データベースで行きたい所を見つけて、サ友と空いてる日を合わせて、当日のセットと感想を記録する。サウナイキタイと日程調整が1つになったアプリです。</p>
+    <div class="cycle" aria-label="サウナ・水風呂・外気浴の1セット">
+      <div style="flex:10;background:var(--heat)">10分<small>サウナ</small></div>
+      <div style="flex:3;background:var(--cold)">1分<small>水風呂</small></div>
+      <div style="flex:8;background:var(--air)">8分<small>外気浴</small></div>
+    </div>
+    <a class="cta" href="#proto">触ってみる</a>
+  </header>
+
+  <section>
+    <div class="eyebrow">WHY</div>
+    <h2>サ友との段取りは、毎回ちょっと面倒</h2>
+    <div class="pains">
+      <div class="pain"><b>「いつ空いてる？」が3往復</b><span>平日の夜か、土日の昼か。LINEで候補を出し合うだけで1日かかる。</span></div>
+      <div class="pain"><b>施設探しと日程調整が別々</b><span>サウナイキタイで探して、LINEで日程を聞いて、また施設を見直す。行ったり来たりになる。</span></div>
+      <div class="pain"><b>ととのった記録が残らない</b><span>何セットやったか、どこが良かったか。次に行く時には覚えていない。</span></div>
+    </div>
+  </section>
+
+  <section id="proto">
+    <div class="eyebrow">PROTOTYPE</div>
+    <h2>触れるプロトタイプ</h2>
+    <p class="hint">ユウキとイッセキの2人で使う想定のサンプルが入っています。タップすると動きます（このページの中だけで、どこにも送信しません）。</p>
+
+    <div class="proto">
+      <div class="tabs" role="tablist">
+        <button role="tab" id="t-where" aria-selected="true" aria-controls="p-where">① さがす</button>
+        <button role="tab" id="t-when" aria-selected="false" aria-controls="p-when">② いつ</button>
+        <button role="tab" id="t-log" aria-selected="false" aria-controls="p-log">③ 記録</button>
+        <button role="tab" id="t-share" aria-selected="false" aria-controls="p-share">④ LINE</button>
+      </div>
+
+      <div class="pane" id="p-where" role="tabpanel" aria-labelledby="t-where">
+        <input type="search" id="q" class="q" placeholder="施設名・駅名・水風呂 などで検索" aria-label="施設を検索">
+        <div class="chips" id="areaChips"></div>
+        <div class="sortrow"><span class="hint" id="count"></span>
+          <select id="sort" aria-label="並び順"><option value="ikitai">2人のイキタイ順</option><option value="log">サ活が多い順</option><option value="area">エリア順</option></select>
+          <label class="tt"><input type="checkbox" id="ttOnly"> タトゥー可だけ</label>
+        </div>
+        <div class="places" id="places"></div>
+        <div class="detail" id="detail" hidden></div>
+      </div>
+
+      <div class="pane" id="p-when" role="tabpanel" aria-labelledby="t-when" hidden>
+        <div class="who" id="whoWhen">
+          <button class="y" aria-pressed="true" data-p="y">ユウキとして入力</button>
+          <button class="i" aria-pressed="false" data-p="i">イッセキとして入力</button>
+        </div>
+        <p class="hint">空いている枠をタップ。2人とも空いた枠に「GO」が付きます。</p>
+        <div class="gridwrap"><table class="slots" id="slots"></table></div>
+        <div class="result" id="whenResult"></div>
+      </div>
+
+
+      <div class="pane" id="p-log" role="tabpanel" aria-labelledby="t-log" hidden>
+        <div class="who logwho" id="whoLog">
+          <button class="y" aria-pressed="true" data-p="y">ユウキ</button>
+          <button class="i" aria-pressed="false" data-p="i">イッセキ</button>
+        </div>
+        <div class="set-form">
+          <div class="step s"><label for="vs">サウナ（分）</label><span class="val" id="vs">10</span><div class="btns"><button data-k="s" data-d="-1" aria-label="サウナを1分減らす">−</button><button data-k="s" data-d="1" aria-label="サウナを1分増やす">＋</button></div></div>
+          <div class="step w"><label for="vw">水風呂（秒）</label><span class="val" id="vw">60</span><div class="btns"><button data-k="w" data-d="-15" aria-label="水風呂を15秒減らす">−</button><button data-k="w" data-d="15" aria-label="水風呂を15秒増やす">＋</button></div></div>
+          <div class="step a"><label for="va">外気浴（分）</label><span class="val" id="va">8</span><div class="btns"><button data-k="a" data-d="-1" aria-label="外気浴を1分減らす">−</button><button data-k="a" data-d="1" aria-label="外気浴を1分増やす">＋</button></div></div>
+        </div>
+        <div class="logmeta"><label for="logPlace">施設</label><select id="logPlace"></select>
+          <label for="logNote">ひとこと</label><input id="logNote" type="text" maxlength="60" placeholder="例：外気浴のイスが最高だった"></div>
+        <button class="add" id="addSet">このセットを記録</button>
+        <div class="tracks" id="tracks"></div>
+        <div class="legend"><span><i style="background:var(--heat)"></i>サウナ</span><span><i style="background:var(--cold)"></i>水風呂</span><span><i style="background:var(--air)"></i>外気浴</span></div>
+      </div>
+
+      <div class="pane" id="p-share" role="tabpanel" aria-labelledby="t-share" hidden>
+        <p class="hint">①〜③の内容から、LINEに送る1通を自動で組み立てます。</p>
+        <div class="line"><div class="bubble" id="lineMsg"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="room">
+    <div class="eyebrow">MULTIPLAYER</div>
+    <h2>サ友を誘って、本物のルームで合わせる</h2>
+    <p class="hint">上のデモはサンプルです。ボタンを押すと自分専用のルームができて、URLを送った相手と一緒に空き・イキタイ・記録を共有できます。</p>
+    <button class="cta" id="makeRoom" type="button">サ活ルームを作る</button>
+  </section>
+
+  <section>
+    <div class="eyebrow">HOW IT WORKS</div>
+    <h2>裏側はもうできている部品の組み合わせ</h2>
+    <ol class="flow">
+      <li><b>いつ</b><span>日程調整の「いつなら？」をそのまま流用。相手はログイン不要、スマホで○×を押すだけ。</span></li>
+      <li><b>さがす</b><span>エリア別の施設データベース。水風呂の温度・外気浴・タトゥー可否で絞れて、2人の「イキタイ」が一致した所が上に来る。</span></li>
+      <li><b>記録</b><span>その場で＋−を押してひとこと書くだけ。施設ページにサ活として貯まっていく。</span></li>
+      <li><b>LINE</b><span>終わったら1枚にまとめて2人のトークへ。次回の候補日も一緒に出す。</span></li>
+    </ol>
+  </section>
+
+  <section>
+    <div class="biz">
+      <div class="eyebrow" style="color:#9fb0bf">NEXT</div>
+      <h2>外国人ゲスト向けに開くと、商品になる</h2>
+      <p>サウナは海外からの旅行者に人気なのに、入り方・マナー・タトゥーの可否・どこに行けばいいかで迷う人が多い。2人の強みを足すと、そのまま体験ツアーにできます。</p>
+      <div class="who2">
+        <div><b>ユウキが持っているもの</b>ツアーの運営と予約の仕組み（Viator・GetYourGuide・Airbnb）、英語の案内、当日の写真とレビューの回し方。</div>
+        <div><b>イッセキさんが持っているもの</b>tokyoexperiencesの窓口、広告とマーケティングの知見、Airbnbコミュニティでのつながり。</div>
+      </div>
+      <ul>
+        <li>施設データベースの「タトゥー可」で絞った英語版を作れば、そのまま外国人向けの案内になる</li>
+        <li>このアプリの「記録」を英語にして、ゲストのととのい記録をお土産として渡す</li>
+        <li>マナーと入り方はツアー前に動画で渡しておく</li>
+        <li>最初の1本は2人でサ活しながら下見して作る</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>施設データは2026-09-25に各施設の公式サイトまたはサウナイキタイで実在と内容を確認した19施設です。タトゥー欄が空の施設は公式情報で確認できなかったものです。サ活の記録と「イキタイ」はプロトタイプ用のサンプルです。営業時間・料金・男女の営業日は各施設の公式サイトで確認してください。</footer>
+</div>
+
+<script>
+(function(){
+  const state={when:[],where:[],target:null};
+  // ---- tabs
+  const tabs=[...document.querySelectorAll('[role=tab]')];
+  tabs.forEach(t=>t.addEventListener('click',()=>{
+    tabs.forEach(x=>{x.setAttribute('aria-selected',x===t);document.getElementById(x.getAttribute('aria-controls')).hidden=x!==t});
+    if(t.id==='t-share')renderLine();
+  }));
+
+  // ---- ① when
+  const days=['9/27(土)','9/28(日)','9/29(月)','9/30(火)','10/1(水)','10/2(木)','10/3(金)'];
+  const times=['朝','昼','夜'];
+  // sample: Isseki = 月金は汐留で夜、火水は昼、週末14-17時
+  const avail={y:new Set(['0-1','1-0','2-2','4-1','5-2','6-2']),i:new Set(['0-1','1-1','2-2','3-1','4-1','6-2'])};
+  let who='y';
+  const slots=document.getElementById('slots');
+  function renderSlots(){
+    let h='<tr><th></th>'+days.map(d=>`<th>${d}</th>`).join('')+'</tr>';
+    times.forEach((t,ti)=>{
+      h+=`<tr><th class="row">${t}</th>`;
+      days.forEach((d,di)=>{
+        const k=di+'-'+ti,y=avail.y.has(k),i=avail.i.has(k);
+        h+=`<td><button data-k="${k}" class="${y&&i?'both':''}" aria-label="${d} ${t}${y?' ユウキ空き':''}${i?' イッセキ空き':''}">${y?'<i class="y"></i>':''}${i?'<i class="i"></i>':''}</button></td>`;
+      });
+      h+='</tr>';
+    });
+    slots.innerHTML=h;
+    const both=[];days.forEach((d,di)=>times.forEach((t,ti)=>{const k=di+'-'+ti;if(avail.y.has(k)&&avail.i.has(k))both.push(d+' '+t)}));
+    const r=document.getElementById('whenResult');
+    if(both.length){r.className='result';r.innerHTML=`<b>${state.target?state.target+'に':''}2人とも行けるのは ${both.length}枠</b><span>${both.join('／')}</span>`}
+    else{r.className='result none';r.innerHTML='<span>まだ2人の空きが重なっていません。</span>'}
+    state.when=both;
+  }
+  slots.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const s=avail[who];s.has(b.dataset.k)?s.delete(b.dataset.k):s.add(b.dataset.k);renderSlots()});
+  document.getElementById('whoWhen').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;who=b.dataset.p;[...e.currentTarget.children].forEach(x=>x.setAttribute('aria-pressed',x===b))});
+
+  // ---- ① さがす（施設DB・調査日2026-09-25・公式またはサウナイキタイで実在確認済み）
+  const P=[{"name": "ライオンサウナ新橋（レンブラントキャビン&スパ新橋内）", "area": "新橋・汐留・銀座", "station": "新橋駅 徒歩3分", "url": "https://rembrandt-cabin.com/spa-shimbashi/", "point": "水風呂は10℃と17℃の2種類", "tattoo": "不可"}, {"name": "カンデオホテルズ 東京新橋 スカイスパ", "area": "新橋・汐留・銀座", "station": "新橋駅 徒歩4分", "url": "https://www.candeohotels.com/ja/tokyo-shimbashi/sauna/", "point": "12階露天の外気浴、水風呂17.5℃", "tattoo": "可"}, {"name": "銀座 SPA&SAUNA コリドーの湯", "area": "新橋・汐留・銀座", "station": "銀座駅 徒歩5分", "url": "https://corridorno-yu.jp/", "point": "水風呂17℃、外気浴スペースを完備", "tattoo": "条件付き"}, {"name": "Sauna-Tokyo（サウナ東京）赤坂", "area": "赤坂・六本木・虎ノ門", "station": "赤坂駅 徒歩1分", "url": "https://sauna-tokyo.jp/", "point": "男性専用でサウナ5室・水風呂3種", "tattoo": "条件付き"}, {"name": "テルマー湯 西麻布店", "area": "赤坂・六本木・虎ノ門", "station": "六本木駅 徒歩5分", "url": "https://nishiazabu-thermae-yu.jp/", "point": "都内最深級163cmの水風呂と8℃水風呂", "tattoo": "条件付き"}, {"name": "高輪SAUNAS", "area": "品川・高輪・五反田", "station": "高輪ゲートウェイ駅 徒歩1分", "url": "https://saunas-saunas.com/takanawa", "point": "個性の異なるサウナ室を9室備える新施設", "tattoo": "可"}, {"name": "ドシー五反田", "area": "品川・高輪・五反田", "station": "五反田駅 徒歩2分", "url": "https://do-c.jp/gotanda", "point": "水風呂はなく冷たいウォーターピラーで冷却", "tattoo": null}, {"name": "渋谷SAUNAS", "area": "渋谷・恵比寿", "station": "渋谷駅 徒歩3分", "url": "https://saunas-saunas.com/shibuya/", "point": "深さ160cmの水風呂「シヴァ」が特徴", "tattoo": "条件付き"}, {"name": "ドシー恵比寿", "area": "渋谷・恵比寿", "station": "恵比寿駅 徒歩2分", "url": "https://do-c.jp/ebisu", "point": "水風呂はなく温度が選べる掛水シャワー", "tattoo": null}, {"name": "新宿天然温泉 テルマー湯", "area": "新宿", "station": "新宿三丁目駅 徒歩2分", "url": "https://thermae-yu.jp/", "point": "水風呂15℃、24人収容の大型サウナ室", "tattoo": "条件付き"}, {"name": "新宿区役所前カプセルホテル", "area": "新宿", "station": "新宿駅 徒歩4分", "url": "https://sauna-ikitai.com/saunas/1825", "point": "水風呂は3段階の温度から選べる", "tattoo": "可"}, {"name": "サウナ&ホテル かるまる池袋", "area": "池袋", "station": "池袋駅 徒歩6分", "url": "https://karumaru.jp/ikebukuro/", "point": "水風呂4種、最冷6.1℃のサンダートルネード", "tattoo": "不可"}, {"name": "タイムズ スパ・レスタ", "area": "池袋", "station": "東池袋駅 徒歩3分", "url": "http://www.timesspa-resta.jp/", "point": "水風呂15℃、玄人にも評判の上質な銭湯", "tattoo": null}, {"name": "サウナ&カプセルホテル 北欧", "area": "上野・浅草", "station": "上野駅 徒歩1分", "url": "https://www.saunahokuou.com/", "point": "ドラマ「サ道」の舞台、水風呂18℃", "tattoo": "不可"}, {"name": "サウナランド浅草", "area": "上野・浅草", "station": "浅草駅 徒歩2分", "url": "https://saunaland-asakusa.jp/", "point": "薪サウナと水風呂16℃、貸切利用も可能", "tattoo": "可"}, {"name": "浅草ROXまつり湯", "area": "上野・浅草", "station": "田原町駅 徒歩5分", "url": "https://www.matsuri-yu.com/", "point": "水風呂14〜17℃、露天風呂など湯船11種", "tattoo": null}, {"name": "黄金湯", "area": "錦糸町・両国・墨田", "station": "錦糸町駅 徒歩6分", "url": "https://koganeyu.com/", "point": "1932年創業、水風呂12〜15℃で深さ80cm", "tattoo": "可"}, {"name": "リアルサウナ錦糸町", "area": "錦糸町・両国・墨田", "station": "錦糸町駅 徒歩2分", "url": "https://realsauna.tokyo/", "point": "全長7mの巨大水風呂、122℃のサウナ室", "tattoo": "可"}, {"name": "両国湯屋 江戸遊", "area": "錦糸町・両国・墨田", "station": "両国駅 徒歩2分", "url": "https://www.edoyu.com/ryougoku/", "point": "水風呂18℃、和風モダンな内装", "tattoo": "不可"}].map((p,ix)=>({...p,ix,v:{y:0,i:0}}));
+  const preset={'高輪SAUNAS':{y:1,i:1},'渋谷SAUNAS':{y:0,i:1},'Sauna-Tokyo（サウナ東京）赤坂':{y:1,i:1},'黄金湯':{y:1,i:0},'サウナ&ホテル かるまる池袋':{y:0,i:1},'ライオンサウナ新橋（レンブラントキャビン&スパ新橋内）':{y:1,i:1},'サウナランド浅草':{y:1,i:0}};
+  P.forEach(p=>{if(preset[p.name])p.v={...preset[p.name]}});
+  const posts=[
+    {p:'Sauna-Tokyo（サウナ東京）赤坂',w:'イッセキ',d:'9/13',sets:'10-60-8 ×3',t:'サウナ室が5つあって回るだけで楽しい。水風呂3種は全部入った'},
+    {p:'黄金湯',w:'ユウキ',d:'9/20',sets:'8-45-10 ×3',t:'近所の銭湯なのに本気。風呂上がりにそのまま飲みに行ける'},
+    {p:'高輪SAUNAS',w:'ユウキ',d:'9/6',sets:'12-60-10 ×2',t:'9室あるので2セットでは回りきれない。次は2人で'},
+    {p:'ライオンサウナ新橋（レンブラントキャビン&スパ新橋内）',w:'イッセキ',d:'8/29',sets:'10-45-8 ×3',t:'10℃と17℃の水風呂を行き来できる。仕事帰りに寄れる距離'},
+  ];
+  let area='すべて',q='',sort='ikitai',ttOnly=false,open=null;
+  const logCount=n=>posts.filter(x=>x.p===n).length;
+  const short=n=>n.replace(/（.*?）/g,'');
+  function renderPlaces(){
+    const areas=['すべて',...new Set(P.map(p=>p.area))];
+    document.getElementById('areaChips').innerHTML=areas.map(a=>`<button aria-pressed="${a===area}" data-a="${a}">${a}</button>`).join('');
+    let list=P.filter(p=>(area==='すべて'||p.area===area)&&(!ttOnly||p.tattoo==='可')&&(!q||(p.name+p.station+p.point+p.area).includes(q)));
+    const sc={ikitai:p=>-(p.v.y+p.v.i)*10-logCount(p.name),log:p=>-logCount(p.name),area:p=>P.indexOf(p)};
+    list.sort((a,b)=>sc[sort](a)-sc[sort](b));
+    document.getElementById('count').textContent=`${list.length}施設`;
+    document.getElementById('places').innerHTML=list.map(p=>{const m=p.v.y&&p.v.i;const tt=p.tattoo==='可'?'<span class="badge ok">タトゥー可</span>':p.tattoo==='条件付き'?'<span class="badge">タトゥー条件付き</span>':p.tattoo==='不可'?'<span class="badge ng">タトゥー不可</span>':'';
+      return `<div class="place${m?' match':''}">
+      <div class="top"><span class="area">${p.area}・${p.station}</span>${m?'<span class="m">2人ともイキタイ</span>':''}</div>
+      <h3><a href="${p.url}" target="_blank" rel="noopener">${p.name}</a></h3>
+      <p class="pt">${p.point}</p>
+      <div class="meta">${tt}<span class="badge">サ活 ${logCount(p.name)}件</span></div>
+      <div class="votes"><button class="y" data-ix="${p.ix}" data-p="y" aria-pressed="${!!p.v.y}">ユウキ イキタイ</button><button class="i" data-ix="${p.ix}" data-p="i" aria-pressed="${!!p.v.i}">イッセキ イキタイ</button></div>
+      <button class="more" data-open="${p.ix}">サ活を見る・この施設で日程を合わせる →</button></div>`}).join('')||'<p class="hint">条件に合う施設がありません。</p>';
+    state.where=P.filter(p=>p.v.y&&p.v.i).map(p=>short(p.name));
+    renderDetail();
+  }
+  function renderDetail(){
+    const d=document.getElementById('detail');
+    if(open===null){d.hidden=true;return}
+    const p=P[open],ps=posts.filter(x=>x.p===p.name);
+    d.hidden=false;
+    d.innerHTML=`<span class="area">${p.area}・${p.station}</span><h3>${p.name}</h3><p>${p.point}</p>
+      <div class="acts"><button data-go="${p.ix}">この施設で日程を合わせる</button><button data-logat="${p.ix}">ここでサ活を記録</button><a class="badge" href="${p.url}" target="_blank" rel="noopener">公式・施設情報</a></div>
+      ${ps.length?ps.map(x=>`<div class="post"><b>${x.w}のサ活 ${x.d}</b> <span class="sets">${x.sets}</span><p>${x.t}</p></div>`).join(''):'<p class="hint">まだサ活の記録がありません。</p>'}`;
+    d.scrollIntoView({block:'nearest',behavior:'smooth'});
+  }
+  document.getElementById('q').addEventListener('input',e=>{q=e.target.value.trim();renderPlaces()});
+  document.getElementById('sort').addEventListener('change',e=>{sort=e.target.value;renderPlaces()});
+  document.getElementById('ttOnly').addEventListener('change',e=>{ttOnly=e.target.checked;renderPlaces()});
+  document.getElementById('areaChips').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;area=b.dataset.a;open=null;renderPlaces()});
+  document.getElementById('places').addEventListener('click',e=>{
+    const v=e.target.closest('button[data-ix]');if(v){const p=P[v.dataset.ix];p.v[v.dataset.p]^=1;renderPlaces();return}
+    const o=e.target.closest('button[data-open]');if(o){open=+o.dataset.open;renderDetail()}
+  });
+  document.getElementById('detail').addEventListener('click',e=>{
+    const g=e.target.closest('button[data-go]');if(g){state.target=short(P[g.dataset.go].name);renderSlots();document.getElementById('t-when').click()}
+    const l=e.target.closest('button[data-logat]');if(l){document.getElementById('logPlace').value=P[l.dataset.logat].name;document.getElementById('t-log').click()}
+  });
+
+  // ---- ③ log
+  const cur={s:10,w:60,a:8};let lw='y';
+  const logs={y:[{s:10,w:60,a:8},{s:12,w:45,a:10}],i:[{s:8,w:90,a:8},{s:10,w:60,a:12},{s:12,w:60,a:10}]};
+  const lim={s:[1,30],w:[15,300],a:[1,30]};
+  document.querySelector('.set-form').addEventListener('click',e=>{const b=e.target.closest('button[data-k]');if(!b)return;const k=b.dataset.k;cur[k]=Math.min(lim[k][1],Math.max(lim[k][0],cur[k]+ +b.dataset.d));document.getElementById('v'+k).textContent=cur[k]});
+  document.getElementById('whoLog').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;lw=b.dataset.p;[...e.currentTarget.children].forEach(x=>x.setAttribute('aria-pressed',x===b))});
+  document.getElementById('logPlace').innerHTML=P.map(p=>`<option value="${p.name}">${short(p.name)}（${p.area}）</option>`).join('');
+  document.getElementById('logPlace').value='Sauna-Tokyo（サウナ東京）赤坂';
+  document.getElementById('addSet').addEventListener('click',()=>{logs[lw].push({...cur});renderTracks();
+    const note=document.getElementById('logNote').value.trim();const pl=document.getElementById('logPlace').value;
+    const last=posts.find(x=>x.p===pl&&x.w===(lw==='y'?'ユウキ':'イッセキ')&&x.d==='今日');
+    const sets=logs[lw].map(x=>x.s+'-'+x.w+'-'+x.a).join(' / ');
+    if(last){last.sets=sets;if(note)last.t=note}else posts.unshift({p:pl,w:lw==='y'?'ユウキ':'イッセキ',d:'今日',sets,t:note||'（ひとことなし）'});
+    renderPlaces()});
+  function mins(l){return l.reduce((t,x)=>t+x.s+x.w/60+x.a,0)}
+  function renderTracks(){
+    const max=Math.max(mins(logs.y),mins(logs.i),1);
+    const row=(name,l)=>`<div class="track"><h3>${name}<span>${l.length}セット・${Math.round(mins(l))}分</span></h3><div class="bar">${l.map(x=>`<i class="s" style="width:${x.s/max*100}%"></i><i class="w" style="width:${x.w/60/max*100}%"></i><i class="a" style="width:${x.a/max*100}%"></i>`).join('')}</div></div>`;
+    document.getElementById('tracks').innerHTML=row('ユウキ',logs.y)+row('イッセキ',logs.i);
+  }
+
+  // ---- ④ line
+  function renderLine(){
+    const s=l=>l.map((x,i)=>`${i+1}. ${x.s}分 → ${x.w}秒 → ${x.a}分`).join('\n');
+    const next=state.when.length?state.when.slice(0,2).join('、'):'（まだ重なっていません）';
+    const place=state.where.length?state.where.join('、'):'（まだ一致していません）';
+    document.getElementById('lineMsg').innerHTML=`<span class="t">サ活いつなら？</span>今日のサ活おつかれさまでした（${short(document.getElementById('logPlace').value)}）
+
+ユウキ ${logs.y.length}セット
+${s(logs.y)}
+
+イッセキ ${logs.i.length}セット
+${s(logs.i)}
+
+次の候補日：${next}
+2人ともイキタイ：${place}`;
+  }
+
+  renderSlots();renderPlaces();renderTracks();
+})();
+</script>
+
+<script>
+(function(){
+  var WORKER='https://sakatsu-itsunara.icchan417.workers.dev';
+  var btn=document.getElementById('makeRoom');
+  btn.addEventListener('click', function(){
+    var name=prompt('あなたの名前は？(ルーム内で表示されます)');
+    if(!name||!name.trim())return;
+    name=name.trim().slice(0,20);
+    var chars='abcdefghijklmnopqrstuvwxyz0123456789';
+    var id=Array.from(crypto.getRandomValues(new Uint8Array(16))).map(function(b){return chars[b%36]}).join('');
+    btn.disabled=true;btn.textContent='作成中…';
+    fetch(WORKER+'/r',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id,name:name})})
+      .then(function(res){if(!res.ok)throw new Error('failed');return res.json()})
+      .then(function(room){
+        try{localStorage.setItem('sakatsu_name_'+room.id,name)}catch(e){}
+        location.href='app.html?r='+room.id;
+      })
+      .catch(function(){
+        alert('ルーム作成に失敗しました。通信環境を確認してもう一度お試しください。');
+        btn.disabled=false;btn.textContent='サ活ルームを作る';
+      });
+  });
+})();
+</script>

@@ -1,0 +1,377 @@
+<meta name="robots" content="noindex">
+<title>サ活いつなら？ ルーム</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;700;900&family=IBM+Plex+Mono:wght@500;700&display=swap">
+<style>
+:root{
+  color-scheme:light;
+  --ground:#f6f8fa; --paper:#fff; --ink:#14202b; --sub:#5a6a78; --line:#dfe6ec;
+  --heat:#e2482d; --heat-soft:#fdebe6; --cold:#1a78cf; --cold-soft:#e5f1fc; --air:#2f9e6a; --air-soft:#e4f5ec;
+  --sans:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Hiragino Sans",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.75;padding-inline:16px;padding-block:20px 72px;margin:0}
+.wrap{max-width:820px;margin:0 auto;display:flex;flex-direction:column;gap:24px}
+h1,h2,h3{margin:0;line-height:1.35;text-wrap:balance}
+p{margin:0}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--sub)}
+button{font:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:3px solid var(--cold);outline-offset:2px}
+.cta{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:#fff;border:0;border-radius:999px;padding:10px 18px;font-weight:700;text-decoration:none;width:max-content;white-space:nowrap}
+.headtop{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.hero h1{font-size:28px;font-weight:900}
+.who{display:flex;gap:8px;flex-wrap:wrap}
+.who button{border:2px solid var(--line);background:var(--paper);border-radius:999px;padding:6px 14px;font-weight:700;font-size:14px}
+.proto{background:var(--paper);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.tabs{display:flex;border-bottom:1px solid var(--line);overflow-x:auto}
+.tabs button{flex:1;min-width:max-content;background:none;border:0;border-bottom:3px solid transparent;padding:14px 12px;font-weight:700;color:var(--sub);font-size:14px}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--heat)}
+.pane{padding:18px;display:flex;flex-direction:column;gap:14px}
+.hint{font-size:13px;color:var(--sub)}
+.gridwrap{overflow-x:auto}
+table.slots{border-collapse:separate;border-spacing:4px;width:100%;min-width:900px}
+.slots th{font-size:12px;color:var(--sub);font-weight:700}
+.slots th.row{text-align:left;white-space:nowrap;padding-right:4px}
+.slots td button{width:100%;height:40px;border-radius:8px;border:1px solid var(--line);background:var(--ground);display:flex;gap:3px;align-items:center;justify-content:center;padding:0;flex-wrap:wrap}
+.slots td button i{width:9px;height:9px;border-radius:50%;display:block}
+.slots td button.both{background:var(--air-soft);border-color:var(--air)}
+.slots td button.both::after{content:"GO";font-family:var(--mono);font-size:11px;font-weight:700;color:var(--air);margin-left:2px}
+.result{border-radius:12px;padding:14px 16px;background:var(--air-soft);display:flex;flex-direction:column;gap:6px}
+.result b{font-size:17px}
+.result.none{background:var(--ground);color:var(--sub)}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chips button{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:6px 12px;font-size:13px}
+.chips button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.places{display:grid;gap:10px}
+@media(min-width:640px){.places{grid-template-columns:1fr 1fr}}
+.place{border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:6px}
+.place h3{font-size:16px}
+.place .area{font-size:12px;color:var(--sub)}
+.place .votes{display:flex;gap:6px}
+.place .votes button{border:1px solid var(--line);background:var(--paper);border-radius:8px;padding:4px 10px;font-size:13px}
+.place .votes button[aria-pressed="true"]{background:var(--heat);color:#fff;border-color:var(--heat)}
+.place.match{border:2px solid var(--air)}
+.place .m{font-size:12px;font-weight:700;color:var(--air)}
+.q{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font:inherit;font-size:15px;background:var(--paper)}
+.sortrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.sortrow select{margin-left:auto;font:inherit;font-size:13px;border:1px solid var(--line);border-radius:8px;padding:4px 8px;background:var(--paper)}
+.tt{font-size:13px;display:flex;gap:4px;align-items:center}
+.place .top{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.place h3 a{color:var(--ink);text-decoration:none}
+.place h3 a:hover{text-decoration:underline}
+.place .pt{font-size:14px}
+.place .meta{display:flex;gap:6px;flex-wrap:wrap;font-size:12px}
+.badge{border-radius:6px;padding:1px 8px;background:var(--ground);color:var(--sub)}
+.badge.ok{background:var(--air-soft);color:var(--air)}
+.badge.ng{background:var(--heat-soft);color:var(--heat)}
+.place .more{border:0;background:none;color:var(--cold);font-size:13px;padding:0;text-align:left}
+.detail{border:2px solid var(--ink);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.detail h3{font-size:18px}
+.detail .post{border-top:1px solid var(--line);padding-top:8px;font-size:14px}
+.detail .post b{font-size:13px}
+.detail .post .sets{font-family:var(--mono);font-size:12px;color:var(--sub)}
+.detail .acts{display:flex;gap:8px;flex-wrap:wrap}
+.detail .acts button{border:1px solid var(--ink);background:var(--paper);border-radius:999px;padding:6px 14px;font-size:13px;font-weight:700}
+.logmeta{display:grid;grid-template-columns:auto 1fr;gap:8px 10px;align-items:center;font-size:13px}
+.logmeta select,.logmeta input{font:inherit;font-size:14px;border:1px solid var(--line);border-radius:8px;padding:6px 8px;background:var(--paper);min-width:0}
+.set-form{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.step{border:1px solid var(--line);border-radius:10px;padding:8px;display:flex;flex-direction:column;align-items:center;gap:4px}
+.step label{font-size:12px;color:var(--sub)}
+.step .val{font-family:var(--mono);font-weight:700;font-size:20px}
+.step .btns{display:flex;gap:6px}
+.step .btns button{width:34px;height:30px;border-radius:8px;border:1px solid var(--line);background:var(--ground);font-weight:700}
+.step.s{background:var(--heat-soft)} .step.w{background:var(--cold-soft)} .step.a{background:var(--air-soft)}
+.add{background:var(--ink);color:#fff;border:0;border-radius:10px;padding:12px;font-weight:700}
+.tracks{display:flex;flex-direction:column;gap:10px}
+.track h3{font-size:14px;margin-bottom:6px;display:flex;justify-content:space-between}
+.track h3 span{font-family:var(--mono);font-weight:500;color:var(--sub);font-size:12px}
+.bar{display:flex;height:28px;border-radius:6px;overflow:hidden;background:var(--ground)}
+.bar i{display:block;height:100%}
+.line{background:#8cabd9;border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:8px}
+.bubble{background:#fff;border-radius:14px;padding:10px 14px;font-size:14px;max-width:100%;white-space:pre-wrap;line-height:1.65}
+@media (prefers-reduced-motion:no-preference){.slots td button,.place{transition:background .15s,border-color .15s}}
+</style>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">SAKATSU ITSUNARA ／ ルーム</div>
+    <div class="headtop">
+      <h1>サ活ルーム</h1>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="cta" id="copyUrl" type="button">URLをコピー</button>
+        <a class="cta" id="lineShareHeader" target="_blank" rel="noopener">LINEで送る</a>
+      </div>
+    </div>
+    <div class="who" id="peopleList"></div>
+  </header>
+
+  <div class="proto">
+    <div class="tabs" role="tablist">
+      <button role="tab" id="t-where" aria-selected="true" aria-controls="p-where">① さがす</button>
+      <button role="tab" id="t-when" aria-selected="false" aria-controls="p-when">② いつ</button>
+      <button role="tab" id="t-log" aria-selected="false" aria-controls="p-log">③ 記録</button>
+      <button role="tab" id="t-share" aria-selected="false" aria-controls="p-share">④ LINE</button>
+    </div>
+
+    <div class="pane" id="p-where" role="tabpanel" aria-labelledby="t-where">
+      <input type="search" id="q" class="q" placeholder="施設名・駅名・水風呂 などで検索" aria-label="施設を検索">
+      <div class="chips" id="areaChips"></div>
+      <div class="sortrow"><span class="hint" id="count"></span>
+        <select id="sort" aria-label="並び順"><option value="ikitai">みんなのイキタイ順</option><option value="log">サ活が多い順</option><option value="area">エリア順</option></select>
+        <label class="tt"><input type="checkbox" id="ttOnly"> タトゥー可だけ</label>
+      </div>
+      <div class="places" id="places"></div>
+      <div class="detail" id="detail" hidden></div>
+    </div>
+
+    <div class="pane" id="p-when" role="tabpanel" aria-labelledby="t-when" hidden>
+      <p class="hint">自分の空いている枠をタップ。参加者全員が空いた枠に「GO」が付きます。</p>
+      <div class="gridwrap"><table class="slots" id="slots"></table></div>
+      <div class="result" id="whenResult"></div>
+    </div>
+
+    <div class="pane" id="p-log" role="tabpanel" aria-labelledby="t-log" hidden>
+      <div class="set-form">
+        <div class="step s"><label for="vs">サウナ（分）</label><span class="val" id="vs">10</span><div class="btns"><button data-k="s" data-d="-1" aria-label="サウナを1分減らす">−</button><button data-k="s" data-d="1" aria-label="サウナを1分増やす">＋</button></div></div>
+        <div class="step w"><label for="vw">水風呂（秒）</label><span class="val" id="vw">60</span><div class="btns"><button data-k="w" data-d="-15" aria-label="水風呂を15秒減らす">−</button><button data-k="w" data-d="15" aria-label="水風呂を15秒増やす">＋</button></div></div>
+        <div class="step a"><label for="va">外気浴（分）</label><span class="val" id="va">8</span><div class="btns"><button data-k="a" data-d="-1" aria-label="外気浴を1分減らす">−</button><button data-k="a" data-d="1" aria-label="外気浴を1分増やす">＋</button></div></div>
+      </div>
+      <div class="logmeta"><label for="logPlace">施設</label><select id="logPlace"></select>
+        <label for="logNote">ひとこと</label><input id="logNote" type="text" maxlength="60" placeholder="例：外気浴のイスが最高だった"></div>
+      <button class="add" id="addSet">このセットを記録</button>
+      <div class="tracks" id="tracks"></div>
+    </div>
+
+    <div class="pane" id="p-share" role="tabpanel" aria-labelledby="t-share" hidden>
+      <p class="hint">①〜③の内容から、LINEに送る1通を自動で組み立てます。</p>
+      <div class="line"><div class="bubble" id="lineMsg"></div></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="cta" id="copyMsg" type="button">コピー</button>
+        <a class="cta" id="lineSend" target="_blank" rel="noopener">LINEで送る</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var WORKER='https://sakatsu-itsunara.icchan417.workers.dev';
+  var params=new URLSearchParams(location.search);
+  var ROOM=params.get('r');
+  if(!ROOM || !/^[a-zA-Z0-9]{16}$/.test(ROOM)){ location.href='index.html'; return; }
+  var ROOM_URL=location.origin+location.pathname+'?r='+ROOM;
+  document.getElementById('lineShareHeader').href='https://line.me/R/share?text='+encodeURIComponent('サ活いつなら？ 一緒に日程を合わせよう\n'+ROOM_URL);
+
+  var ME=null;
+  try{ ME=localStorage.getItem('sakatsu_name_'+ROOM); }catch(e){}
+  var room=null, PLACES=[];
+  var ttOnly=false,q='',area='すべて',sort='ikitai',open=null;
+  var logSel={s:10,w:60,a:8};
+  var DAYS=[0,1,2,3,4,5,6,7,8,9,10,11,12,13];
+  var TIMES=['朝','昼','夜'];
+
+  function dayLabel(offset){
+    var d=new Date(); d.setDate(d.getDate()+offset);
+    var w=['日','月','火','水','木','金','土'][d.getDay()];
+    return (d.getMonth()+1)+'/'+d.getDate()+'('+w+')';
+  }
+  function todayShort(){ var d=new Date(); return (d.getMonth()+1)+'/'+d.getDate(); }
+  function short(n){ return n.replace(/（.*?）/g,''); }
+  function slotKey(d,t){ return d+'-'+t; }
+
+  async function api(path, opts){
+    var res=await fetch(WORKER+path, opts);
+    if(res.status===404){ alert('このルームは見つかりません。トップから作り直してください。'); location.href='index.html'; throw new Error('404'); }
+    if(!res.ok){ throw new Error('api error '+res.status); }
+    return res.json();
+  }
+  async function op(body){
+    body.name=body.name||ME;
+    room=await api('/r/'+ROOM+'/op',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    renderAll();
+  }
+  async function refresh(){
+    room=await api('/r/'+ROOM);
+    renderAll();
+  }
+
+  function whoHasSlot(k){ return room.people.filter(function(p){ return (room.avail[p.name]||[]).indexOf(k)>=0; }); }
+  function commonSlots(){
+    var out=[];
+    DAYS.forEach(function(d){ TIMES.forEach(function(t,ti){
+      var k=slotKey(d,ti);
+      if(room.people.length>1 && whoHasSlot(k).length===room.people.length) out.push(dayLabel(d)+' '+t);
+    })});
+    return out;
+  }
+  function ikitaiCount(name){ return room.people.filter(function(p){ return (room.ikitai[p.name]||[]).indexOf(name)>=0; }).length; }
+  function logCount(name){ return room.posts.filter(function(x){ return x.p===name; }).length; }
+  function parseSetsStr(s){ var parts=(s||'0-0-0').split('-').map(Number); return {s:parts[0]||0, w:(parts[1]||0)/60, a:parts[2]||0}; }
+
+  function renderPeople(){
+    document.getElementById('peopleList').innerHTML=room.people.map(function(p){
+      var mine=p.name===ME;
+      return '<button style="border-color:'+p.color+';'+(mine?('background:'+p.color+'22'):'')+'" aria-pressed="'+mine+'">'+p.name+(mine?'（自分）':'')+'</button>';
+    }).join('');
+  }
+
+  function renderSlots(){
+    var h='<tr><th></th>'+DAYS.map(function(d){return '<th>'+dayLabel(d)+'</th>'}).join('')+'</tr>';
+    TIMES.forEach(function(t,ti){
+      h+='<tr><th class="row">'+t+'</th>';
+      DAYS.forEach(function(d){
+        var k=slotKey(d,ti), has=whoHasSlot(k);
+        var all=room.people.length>1 && has.length===room.people.length;
+        var mine=has.some(function(p){return p.name===ME});
+        h+='<td><button data-k="'+k+'" class="'+(all?'both':'')+'" aria-pressed="'+mine+'" aria-label="'+dayLabel(d)+' '+t+(mine?' 自分は空き':'')+'">'+has.map(function(p){return '<i style="background:'+p.color+'"></i>'}).join('')+'</button></td>';
+      });
+      h+='</tr>';
+    });
+    document.getElementById('slots').innerHTML=h;
+    var both=commonSlots();
+    var r=document.getElementById('whenResult');
+    if(both.length){ r.className='result'; r.innerHTML='<b>'+(room.target?room.target+'に':'')+'全員('+room.people.length+'人)行けるのは '+both.length+'枠</b><span>'+both.join('／')+'</span>'; }
+    else{ r.className='result none'; r.innerHTML='<span>まだ全員の空きが重なっていません。'+(room.people.length<2?' もう一人このルームに参加すると使えます。':'')+'</span>'; }
+  }
+
+  function renderPlaces(){
+    var areas=['すべて'].concat(Array.from(new Set(PLACES.map(function(p){return p.area}))));
+    document.getElementById('areaChips').innerHTML=areas.map(function(a){return '<button aria-pressed="'+(a===area)+'" data-a="'+a+'">'+a+'</button>'}).join('');
+    var list=PLACES.filter(function(p){
+      return (area==='すべて'||p.area===area) && (!ttOnly||p.tattoo==='可') && (!q||(p.name+p.station+p.point+p.area).indexOf(q)>=0);
+    });
+    var sc={ikitai:function(p){return -(ikitaiCount(p.name))*10-logCount(p.name)}, log:function(p){return -logCount(p.name)}, area:function(p){return PLACES.indexOf(p)}};
+    list.sort(function(a,b){return sc[sort](a)-sc[sort](b)});
+    document.getElementById('count').textContent=list.length+'施設';
+    document.getElementById('places').innerHTML=list.map(function(p){
+      var ic=ikitaiCount(p.name), all=room.people.length>1 && ic===room.people.length;
+      var mine=(room.ikitai[ME]||[]).indexOf(p.name)>=0;
+      var tt=p.tattoo==='可'?'<span class="badge ok">タトゥー可</span>':p.tattoo==='条件付き'?'<span class="badge">タトゥー条件付き</span>':p.tattoo==='不可'?'<span class="badge ng">タトゥー不可</span>':'';
+      return '<div class="place'+(all?' match':'')+'">'+
+        '<div class="top"><span class="area">'+p.area+'・'+p.station+'</span>'+(all?'<span class="m">全員イキタイ</span>':(ic?'<span class="m">'+ic+'人イキタイ</span>':''))+'</div>'+
+        '<h3><a href="'+p.url+'" target="_blank" rel="noopener">'+p.name+'</a></h3>'+
+        '<p class="pt">'+p.point+'</p>'+
+        '<div class="meta">'+tt+'<span class="badge">サ活 '+logCount(p.name)+'件</span></div>'+
+        '<div class="votes"><button data-ix="'+p.ix+'" aria-pressed="'+mine+'">'+(mine?'イキタイ ✓':'イキタイに追加')+'</button></div>'+
+        '<button class="more" data-open="'+p.ix+'">サ活を見る・この施設で日程を合わせる →</button></div>';
+    }).join('') || '<p class="hint">条件に合う施設がありません。</p>';
+    renderDetail();
+  }
+
+  function renderDetail(){
+    var d=document.getElementById('detail');
+    if(open===null){ d.hidden=true; return; }
+    var p=PLACES[open], ps=room.posts.filter(function(x){return x.p===p.name});
+    d.hidden=false;
+    d.innerHTML='<span class="area">'+p.area+'・'+p.station+'</span><h3>'+p.name+'</h3><p>'+p.point+'</p>'+
+      '<div class="acts"><button data-go="'+p.ix+'">この施設で日程を合わせる</button><button data-logat="'+p.ix+'">ここでサ活を記録</button><a class="badge" href="'+p.url+'" target="_blank" rel="noopener">公式・施設情報</a></div>'+
+      (ps.length?ps.map(function(x){return '<div class="post"><b>'+x.w+'のサ活 '+x.d+'</b> <span class="sets">'+x.sets+'</span><p>'+x.t+'</p></div>'}).join(''):'<p class="hint">まだサ活の記録がありません。</p>');
+  }
+
+  function renderTracks(){
+    var byPerson={}; room.people.forEach(function(p){ byPerson[p.name]=room.posts.filter(function(x){return x.w===p.name}); });
+    function mins(arr){ return arr.reduce(function(t,x){ var m=parseSetsStr(x.sets); return t+m.s+m.w+m.a; },0); }
+    var max=Math.max(1, Math.max.apply(null, room.people.map(function(p){return mins(byPerson[p.name])}).concat([1])));
+    document.getElementById('tracks').innerHTML=room.people.map(function(p){
+      var l=byPerson[p.name];
+      var bar=l.map(function(x){ var m=parseSetsStr(x.sets); return '<i style="width:'+(m.s/max*100)+'%;background:'+p.color+'"></i><i style="width:'+(m.w/max*100)+'%;background:'+p.color+'99"></i><i style="width:'+(m.a/max*100)+'%;background:'+p.color+'44"></i>'; }).join('');
+      return '<div class="track"><h3>'+p.name+'<span>'+l.length+'セット・'+Math.round(mins(l))+'分</span></h3><div class="bar">'+bar+'</div></div>';
+    }).join('');
+  }
+
+  function buildMessage(){
+    var msg='サ活いつなら？\n';
+    if(room.target) msg+='対象の施設：'+room.target+'\n\n';
+    room.people.forEach(function(p){
+      var mine=room.posts.filter(function(x){return x.w===p.name});
+      if(mine.length){
+        msg+=p.name+' '+mine.length+'セット\n'+mine.slice(0,5).map(function(x){return '・'+x.sets+'（'+short(x.p)+' '+x.d+'）'}).join('\n')+'\n\n';
+      }
+    });
+    var both=commonSlots();
+    msg+='次の候補日：'+(both.length?both.slice(0,3).join('、'):'（まだ全員の空きが重なっていません）')+'\n';
+    var allIkitai=PLACES.filter(function(p){ return room.people.length>1 && room.people.every(function(person){ return (room.ikitai[person.name]||[]).indexOf(p.name)>=0; }); }).map(function(p){return short(p.name)});
+    msg+='全員イキタイ：'+(allIkitai.length?allIkitai.join('、'):'（まだ一致していません）')+'\n\n';
+    msg+='ルームURL：'+ROOM_URL;
+    return msg;
+  }
+  function renderLine(){
+    var msg=buildMessage();
+    document.getElementById('lineMsg').textContent=msg;
+    document.getElementById('lineSend').href='https://line.me/R/share?text='+encodeURIComponent(msg);
+  }
+
+  function renderAll(){
+    renderPeople(); renderPlaces(); renderSlots(); renderTracks();
+    var shareTab=document.getElementById('t-share');
+    if(shareTab.getAttribute('aria-selected')==='true') renderLine();
+  }
+
+  // ---- events (delegated, wired once) ----
+  var tabs=[].slice.call(document.querySelectorAll('[role=tab]'));
+  tabs.forEach(function(t){ t.addEventListener('click', function(){
+    tabs.forEach(function(x){ x.setAttribute('aria-selected',x===t); document.getElementById(x.getAttribute('aria-controls')).hidden=x!==t; });
+    if(t.id==='t-share') renderLine();
+  }); });
+
+  document.getElementById('slots').addEventListener('click', function(e){
+    var b=e.target.closest('button[data-k]'); if(!b) return;
+    var mineNow=(room.avail[ME]||[]).indexOf(b.dataset.k)>=0;
+    op({type:'avail', slot:b.dataset.k, on:!mineNow});
+  });
+
+  document.getElementById('q').addEventListener('input', function(e){ q=e.target.value.trim(); renderPlaces(); });
+  document.getElementById('sort').addEventListener('change', function(e){ sort=e.target.value; renderPlaces(); });
+  document.getElementById('ttOnly').addEventListener('change', function(e){ ttOnly=e.target.checked; renderPlaces(); });
+  document.getElementById('areaChips').addEventListener('click', function(e){ var b=e.target.closest('button'); if(!b) return; area=b.dataset.a; open=null; renderPlaces(); });
+  document.getElementById('places').addEventListener('click', function(e){
+    var v=e.target.closest('button[data-ix]');
+    if(v){ var p=PLACES[v.dataset.ix]; var mine=(room.ikitai[ME]||[]).indexOf(p.name)>=0; op({type:'ikitai', place:p.name, on:!mine}); return; }
+    var o=e.target.closest('button[data-open]'); if(o){ open=+o.dataset.open; renderDetail(); }
+  });
+  document.getElementById('detail').addEventListener('click', function(e){
+    var g=e.target.closest('button[data-go]'); if(g){ op({type:'target', place:PLACES[g.dataset.go].name}); document.getElementById('t-when').click(); }
+    var l=e.target.closest('button[data-logat]'); if(l){ document.getElementById('logPlace').value=PLACES[l.dataset.logat].name; document.getElementById('t-log').click(); }
+  });
+
+  var lim={s:[1,30],w:[15,300],a:[1,30]};
+  document.querySelector('.set-form').addEventListener('click', function(e){
+    var b=e.target.closest('button[data-k]'); if(!b) return;
+    var k=b.dataset.k;
+    logSel[k]=Math.min(lim[k][1],Math.max(lim[k][0], logSel[k]+ +b.dataset.d));
+    document.getElementById('v'+k).textContent=logSel[k];
+  });
+  document.getElementById('addSet').addEventListener('click', function(){
+    var place=document.getElementById('logPlace').value;
+    var note=document.getElementById('logNote').value.trim();
+    op({type:'post', place:place, sets:logSel.s+'-'+logSel.w+'-'+logSel.a, note:note, date:todayShort()});
+    document.getElementById('logNote').value='';
+  });
+
+  document.getElementById('copyUrl').addEventListener('click', async function(){
+    try{ await navigator.clipboard.writeText(ROOM_URL); alert('URLをコピーしました'); }
+    catch(e){ window.prompt('コピーしてください', ROOM_URL); }
+  });
+  document.getElementById('copyMsg').addEventListener('click', async function(){
+    var msg=buildMessage();
+    try{ await navigator.clipboard.writeText(msg); alert('コピーしました'); }
+    catch(e){ var ta=document.createElement('textarea'); ta.value=msg; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); alert('コピーしました'); }
+  });
+
+  // ---- boot ----
+  async function boot(){
+    PLACES=await fetch('places.json').then(function(r){return r.json()});
+    PLACES=PLACES.map(function(p,ix){ return Object.assign({},p,{ix:ix}); });
+    document.getElementById('logPlace').innerHTML=PLACES.map(function(p){ return '<option value="'+p.name+'">'+short(p.name)+'（'+p.area+'）</option>'; }).join('');
+
+    while(!ME || !ME.trim()){
+      ME=(window.prompt('あなたの名前を入力してください（ルームの全員に表示されます）')||'').trim().slice(0,20);
+    }
+    try{ localStorage.setItem('sakatsu_name_'+ROOM, ME); }catch(e){}
+    await op({type:'join'});
+    setInterval(refresh, 10000);
+  }
+  boot().catch(function(e){ console.error(e); });
+})();
+</script>
