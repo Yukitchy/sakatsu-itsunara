@@ -28,13 +28,18 @@ body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size
 .peoplebar{display:flex;gap:6px;flex-wrap:wrap}
 .bottomtabs{position:fixed;left:0;right:0;bottom:0;display:none;background:var(--paper);border-top:1px solid var(--line);padding:4px 4px calc(4px + env(safe-area-inset-bottom));z-index:50}
 .bottomtabs button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:0;padding:6px 4px;color:var(--sub);font-size:10px;font-weight:700}
+.sheetclose{position:absolute;top:10px;right:12px;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--paper);font-size:20px;line-height:1;color:var(--sub)}
+.detail{position:relative}
 .bottomtabs button svg{width:22px;height:22px}
 .bottomtabs button[aria-selected="true"]{color:var(--heat)}
 @media(max-width:767px){
   .bottomtabs{display:flex}
   .proto .tabs{display:none}
   .headtop{display:none}
-  body{padding-block:16px calc(64px + env(safe-area-inset-bottom))}
+  body{padding-block:calc(68px + env(safe-area-inset-top)) calc(72px + env(safe-area-inset-bottom))}
+  #areaChips{flex-wrap:nowrap;overflow-x:auto;margin-inline:-18px;padding-inline:18px;scrollbar-width:none}
+  #areaChips::-webkit-scrollbar{display:none}
+  #areaChips button{flex:none;white-space:nowrap}
   .detail{position:fixed;left:0;right:0;bottom:0;margin:0;border-radius:16px 16px 0 0;max-height:80vh;overflow:auto;box-shadow:0 -8px 24px rgba(0,0,0,.18);transition:transform .25s ease;z-index:60;padding-bottom:calc(16px + env(safe-area-inset-bottom));transform:translateY(110%)}
   .detail::before{content:"";display:block;width:36px;height:4px;background:var(--line);border-radius:2px;margin:0 auto 8px;order:-1}
   .detail[hidden]{display:flex !important;visibility:hidden;pointer-events:none}
@@ -335,7 +340,7 @@ table.slots{border-collapse:separate;border-spacing:4px;width:100%;min-width:900
     if(open===null){ d.hidden=true; return; }
     var p=PLACES[open], ps=room.posts.filter(function(x){return x.p===p.name});
     d.hidden=false;
-    d.innerHTML='<span class="area">'+p.area+'・'+p.station+'</span><h3>'+p.name+'</h3><p>'+p.point+'</p>'+
+    d.innerHTML='<button class="sheetclose" data-close="1" aria-label="閉じる">×</button><span class="area">'+p.area+'・'+p.station+'</span><h3>'+p.name+'</h3><p>'+p.point+'</p>'+
       '<div class="acts"><button data-go="'+p.ix+'">この施設で日程を合わせる</button><button data-logat="'+p.ix+'">ここでサ活を記録</button><a class="badge" href="'+p.url+'" target="_blank" rel="noopener">公式・施設情報</a></div>'+
       (ps.length?ps.map(function(x){return '<div class="post"><b>'+x.w+'のサ活 '+x.d+'</b> <span class="sets">'+x.sets+'</span><p>'+x.t+'</p></div>'}).join(''):'<p class="hint">まだサ活の記録がありません。</p>');
   }
@@ -404,6 +409,7 @@ table.slots{border-collapse:separate;border-spacing:4px;width:100%;min-width:900
     var o=e.target.closest('button[data-open]'); if(o){ open=+o.dataset.open; renderDetail(); }
   });
   document.getElementById('detail').addEventListener('click', function(e){
+    if(e.target.closest('[data-close]')){ open=null; renderDetail(); return; }
     var g=e.target.closest('button[data-go]'); if(g){ op({type:'target', place:PLACES[g.dataset.go].name}); document.getElementById('t-when').click(); }
     var l=e.target.closest('button[data-logat]'); if(l){ document.getElementById('logPlace').value=PLACES[l.dataset.logat].name; document.getElementById('t-log').click(); }
   });
