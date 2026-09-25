@@ -179,6 +179,23 @@ table.slots{border-collapse:separate;border-spacing:4px;width:100%;min-width:900
   function todayShort(){ var d=new Date(); return (d.getMonth()+1)+'/'+d.getDate(); }
   function short(n){ return n.replace(/（.*?）/g,''); }
   function slotKey(d,t){ return d+'-'+t; }
+  function askName(title){
+    return new Promise(function(resolve){
+      var ov=document.createElement('div');
+      ov.style.cssText='position:fixed;inset:0;background:rgba(20,32,43,.6);display:flex;align-items:center;justify-content:center;z-index:999;padding:16px';
+      ov.innerHTML='<div style="background:#fff;border-radius:16px;padding:20px;max-width:320px;width:100%;display:flex;flex-direction:column;gap:12px">'+
+        '<b style="font-size:16px">'+title+'</b>'+
+        '<input id="__nameInput" type="text" maxlength="20" style="border:1px solid #dfe6ec;border-radius:10px;padding:10px 12px;font-size:15px;font:inherit" placeholder="例：ユウキ">'+
+        '<button id="__nameOk" style="background:#14202b;color:#fff;border:0;border-radius:10px;padding:12px;font-weight:700">決定</button>'+
+        '</div>';
+      document.body.appendChild(ov);
+      var input=ov.querySelector('#__nameInput');
+      input.focus();
+      function submit(){ var v=input.value.trim().slice(0,20); if(!v){input.focus();return;} document.body.removeChild(ov); resolve(v); }
+      ov.querySelector('#__nameOk').addEventListener('click', submit);
+      input.addEventListener('keydown', function(e){ if(e.key==='Enter') submit(); });
+    });
+  }
 
   async function api(path, opts){
     var res=await fetch(WORKER+path, opts);
@@ -351,7 +368,7 @@ table.slots{border-collapse:separate;border-spacing:4px;width:100%;min-width:900
 
   document.getElementById('copyUrl').addEventListener('click', async function(){
     try{ await navigator.clipboard.writeText(ROOM_URL); alert('URLをコピーしました'); }
-    catch(e){ window.prompt('コピーしてください', ROOM_URL); }
+    catch(e){ alert('コピーできませんでした。このURLを手動でコピーしてください：\n'+ROOM_URL); }
   });
   document.getElementById('copyMsg').addEventListener('click', async function(){
     var msg=buildMessage();
@@ -365,8 +382,8 @@ table.slots{border-collapse:separate;border-spacing:4px;width:100%;min-width:900
     PLACES=PLACES.map(function(p,ix){ return Object.assign({},p,{ix:ix}); });
     document.getElementById('logPlace').innerHTML=PLACES.map(function(p){ return '<option value="'+p.name+'">'+short(p.name)+'（'+p.area+'）</option>'; }).join('');
 
-    while(!ME || !ME.trim()){
-      ME=(window.prompt('あなたの名前を入力してください（ルームの全員に表示されます）')||'').trim().slice(0,20);
+    if(!ME || !ME.trim()){
+      ME=await askName('あなたの名前を入力してください（ルームの全員に表示されます）');
     }
     try{ localStorage.setItem('sakatsu_name_'+ROOM, ME); }catch(e){}
     await op({type:'join'});

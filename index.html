@@ -404,10 +404,30 @@ ${s(logs.i)}
 (function(){
   var WORKER='https://sakatsu-itsunara.icchan417.workers.dev';
   var btn=document.getElementById('makeRoom');
+  function askName(title){
+    return new Promise(function(resolve){
+      var ov=document.createElement('div');
+      ov.style.cssText='position:fixed;inset:0;background:rgba(20,32,43,.6);display:flex;align-items:center;justify-content:center;z-index:999;padding:16px';
+      ov.innerHTML='<div style="background:#fff;border-radius:16px;padding:20px;max-width:320px;width:100%;display:flex;flex-direction:column;gap:12px">'+
+        '<b style="font-size:16px">'+title+'</b>'+
+        '<input id="__nameInput" type="text" maxlength="20" style="border:1px solid #dfe6ec;border-radius:10px;padding:10px 12px;font-size:15px;font:inherit" placeholder="例：ユウキ">'+
+        '<div style="display:flex;gap:8px;justify-content:flex-end">'+
+        '<button id="__nameCancel" style="background:none;border:0;color:#5a6a78;font-weight:700;padding:10px">やめる</button>'+
+        '<button id="__nameOk" style="background:#14202b;color:#fff;border:0;border-radius:10px;padding:10px 18px;font-weight:700">決定</button>'+
+        '</div></div>';
+      document.body.appendChild(ov);
+      var input=ov.querySelector('#__nameInput');
+      input.focus();
+      function done(v){ document.body.removeChild(ov); resolve(v); }
+      function submit(){ var v=input.value.trim().slice(0,20); if(!v){input.focus();return;} done(v); }
+      ov.querySelector('#__nameOk').addEventListener('click', submit);
+      ov.querySelector('#__nameCancel').addEventListener('click', function(){ done(null); });
+      input.addEventListener('keydown', function(e){ if(e.key==='Enter') submit(); });
+    });
+  }
   btn.addEventListener('click', function(){
-    var name=prompt('あなたの名前は？(ルーム内で表示されます)');
-    if(!name||!name.trim())return;
-    name=name.trim().slice(0,20);
+    askName('あなたの名前は？（ルーム内で表示されます）').then(function(name){
+    if(!name)return;
     var chars='abcdefghijklmnopqrstuvwxyz0123456789';
     var id=Array.from(crypto.getRandomValues(new Uint8Array(16))).map(function(b){return chars[b%36]}).join('');
     btn.disabled=true;btn.textContent='作成中…';
@@ -421,6 +441,7 @@ ${s(logs.i)}
         alert('ルーム作成に失敗しました。通信環境を確認してもう一度お試しください。');
         btn.disabled=false;btn.textContent='サ活ルームを作る';
       });
+    });
   });
 })();
 </script>
